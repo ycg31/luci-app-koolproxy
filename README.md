@@ -3,13 +3,6 @@
 2. KoolProxy 可以对 https 网络数据进行识别代理，使用 https 功能的用户需要自己提供相关证书，本程序提供的证书生成脚本仅供用户参考，证书的保密工作由用户自行负责。
 3. 使用本软件的风险由用户自行承担，在适用法律允许的最大范围内，对因使用本产品所产生的损害及风险，包括但不限于直接或间接的个人损害、商业赢利的丧失、贸易中断、商业信息的丢失或任何其它经济损失，KoolProxy.com 不承担任何责任。
 
-koolproxy更新日志：
-http://koolshare.cn/thread-64086-1-1.html
-
-koolproxy性能测试：
-http://koolshare.cn/thread-80772-1-1.html
-
-
 ## 准备工作：
 <font color=red>
 先运行：</br>
@@ -43,7 +36,5 @@ opkg install http://firmware.koolshare.cn/binary/KoolProxy/luci/luci-i18n-koolpr
 * QQ群：https://jq.qq.com/?_wv=1027&k=445DYpV </br>
 * TG群：https://t.me/joinchat/AAAAAD-tO7GPvfOU131_vg
 
-## LUCI更新日志：
-2017年03月31日 17:01, koolproxy 3.3.6
 
 
