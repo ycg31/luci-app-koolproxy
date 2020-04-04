@@ -10,11 +10,18 @@ config global
 	option enabled '0'
 
 config rss_rule
-	option name '乘风广告过滤规则'
-	option url 'https://raw.githubusercontent.com/xinggsf/Adblock-Plus-Rule/master/ABP-FX.txt'
-	option file 'ABP-FX.txt'
+	option name '乘风视频广告过滤规则'
+	option url 'https://gitee.com/xinggsf/Adblock-Rule/raw/master/mv.txt'
+	option file 'mv.txt'
 	option load '0'
-	option time '2019-04-28 20:58'
+	option time '2020-04-04 20:15'
+	
+config rss_rule
+	option name '乘风广告过滤规则'
+	option url 'https://gitee.com/xinggsf/Adblock-Rule/raw/master/rule.txt'
+	option file 'rule.txt'
+	option load '0'
+	option time '2020-04-04 20:15'
 
 config rss_rule
 	option load '0'
