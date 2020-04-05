@@ -7,6 +7,7 @@ config global
 	option koolproxy_mode '2'
 	option koolproxy_host '1'
 	option koolproxy_rules 'kp.dat user.txt'
+	option thirdparty_rules 'fanboy.txt'
 	option enabled '0'
 
 config rss_rule
