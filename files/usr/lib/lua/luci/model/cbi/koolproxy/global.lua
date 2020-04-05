@@ -86,7 +86,7 @@ e:depends("koolproxy_mode","2")
 
 
 e = t:taboption("base", ListValue, "koolproxy_acl_default", translate("默认访问控制"))
-e.default = 1
+e.default = 2
 e.rmempty = false
 e:value(0, translate("不过滤"))
 e:value(1, translate("http only"))
@@ -95,10 +95,11 @@ e:value(3, translate("full port"))
 e.description = translate(string.format("<font color=\"blue\"><strong>访问控制设置中其他主机的默认规则</strong></font>"))
 
 e = t:taboption("base", ListValue, "time_update", translate("定时更新"))
+e:value(-1,translate("关闭"))
 for t = 0,23 do
 	e:value(t,translate("每天"..t.."点"))
 end
-e.default = 0
+e.default = -1
 e.rmempty = false
 e.description = translate(string.format("<font color=\"red\"><strong>定时更新订阅规则与Adblock Plus Host</strong></font>"))
 

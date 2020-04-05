@@ -330,10 +330,14 @@ load_nat() {
 
 add_cru() {
 	time=$(config_t_get global time_update)
-	wirtecron=$(cat /etc/crontabs/root | grep "00 $time * * *" | grep kpupdate)
-	if [ -z "$wirtecron" ];then
+	if [ "$time" != "-1" ];then
+		wirtecron=$(cat /etc/crontabs/root | grep "00 $time * * *" | grep kpupdate)
+		if [ -z "$wirtecron" ];then
+			sed -i '/kpupdate/d' /etc/crontabs/root >/dev/null 2>&1
+			echo "0 $time * * * /usr/share/koolproxy/kpupdate" >> /etc/crontabs/root 
+		fi
+	else
 		sed -i '/kpupdate/d' /etc/crontabs/root >/dev/null 2>&1
-		echo "0 $time * * * /usr/share/koolproxy/kpupdate" >> /etc/crontabs/root 
 	fi
 }
 
