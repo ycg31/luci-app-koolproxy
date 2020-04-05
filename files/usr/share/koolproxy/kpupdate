@@ -107,6 +107,31 @@ update_rss_rules() {
 	config_foreach __update_rule rss_rule
 }
 
+update_rules() {
+	echo $(date "+%F %T"): ------------------- 内置规则更新 ------------------- >>$LOGFILE
+	wget 'https://gitee.com/ycg31/KoolProxy/raw/master/rules/kp.dat' -q -O $KP_DIR/data/rules/kp.dat
+    wget 'https://gitee.com/ycg31/KoolProxy/raw/master/rules/daily.txt' -q -O $KP_DIR/data/rules/daily.txt
+    wget 'https://gitee.com/ycg31/KoolProxy/raw/master/rules/koolproxy.txt' -q -O $KP_DIR/data/rules/koolproxy.txt
+	wget 'https://gitee.com/ycg31/KoolProxy/raw/master/rules/yhosts.txt' -q -O $KP_DIR/data/rules/yhosts.txt
+    wget 'https://gitee.com/ycg31/KoolProxy/raw/master/rules/fanboy.txt' -q -O $KP_DIR/data/rules/fanboy.txt
+	wget 'https://gitee.com/ycg31/KoolProxy/raw/master/rules/easylistchina.txt' -q -O $KP_DIR/data/rules/easylistchina.txt
+    wget 'https://gitee.com/ycg31/KoolProxy/raw/master/rules/AdGuardHome.txt' -q -O $KP_DIR/data/rules/AdGuardHome.txt
+	wget 'https://gitee.com/ycg31/KoolProxy/raw/master/rules/koolproxy_ipset.conf' -q -O $KP_DIR/koolproxy_ipset.conf
+    easylist_rules_local=`cat rules/easylistchina.txt  | sed -n '3p'|awk '{print $3,$4}'`
+    fanboy_rules_local=`cat rules/fanboy.txt  | sed -n '3p'|awk '{print $3,$4}'`
+    yhosts_rules_local=`cat rules/yhosts.txt | sed -n '2p' | cut -d "=" -f2`
+	AdGuardHome_rules_local=`cat rules/AdGuardHome.txt | sed -n '2p' | cut -d "=" -f2`
+	video_md5=`md5sum $KP_DIR/data/rules/kp.dat | awk '{print $1}'`
+    echo_date -------------------easylist      version $easylist_rules_local >>$LOGFILE
+    echo_date -------------------fanboy        version $fanboy_rules_local >>$LOGFILE
+    echo_date -------------------yhosts        version $yhosts_rules_local >>$LOGFILE
+	echo_date -------------------AdGuardHome   version $AdGuardHome_rules_local >>$LOGFILE
+	echo_date -------------------kp.dat        MD5 $video_md5 >>$LOGFILE
+	echo_date ------------------- 规则更新成功！ -------------------    >>$LOGFILE
+   RESTART_KOOLPROXY=true
+
+}
+
 update_adb_host() {
 	/usr/sbin/adblockplus >>$LOGFILE 2>&1 &
 	if [ "$?" == "0" ]; then
@@ -120,6 +145,7 @@ limit_log $LOGFILE
 
 # update user rules
 update_rss_rules
+update_rules
 
 koolproxy_mode=$(config_t_get global koolproxy_mode 1)
 koolproxy_host=$(config_t_get global koolproxy_host 0)

@@ -225,11 +225,14 @@ load_rules() {
 			easylistchina.txt)
 				sed -i '5s/0/1/g' $KP_DIR/data/source.list
 			;;
-			chengfeng.txt)
+			fanboy.txt)
 				sed -i '6s/0/1/g' $KP_DIR/data/source.list
 			;;
-			fanboy.txt)
+			yhosts.txt)
 				sed -i '7s/0/1/g' $KP_DIR/data/source.list
+			;;
+			AdGuardHome.txt)
+				sed -i '8s/0/1/g' $KP_DIR/data/source.list
 			;;
 		esac
 	done
