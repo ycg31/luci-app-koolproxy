@@ -33,10 +33,10 @@ e.rmempty = false
 e = t:taboption("base", DummyValue, "koolproxy_status", translate("程序版本"))
 e.value = string.format("[ %s ]", v)
 
-e = t:taboption("base", Value, "startup_delay", translate("Startup Delay"))
-e:value(0, translate("Not enabled"))
+e = t:taboption("base", Value, "startup_delay", translate("延时启动"))
+e:value(0, translate("不延时"))
 for _, v in ipairs({5, 10, 15, 25, 40}) do
-	e:value(v, translate("%u seconds") %{v})
+	e:value(v, translate("%u 秒") %{v})
 end
 e.datatype = "uinteger"
 e.default = 0
