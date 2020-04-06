@@ -54,6 +54,8 @@ define Package/luci-app-koolproxy/install
 	$(INSTALL_DIR) $(1)/usr/share/koolproxy
 	$(INSTALL_DIR) $(1)/usr/share/koolproxy/data
 	$(INSTALL_DIR) $(1)/usr/share/koolproxy/data/rules/
+	$(INSTALL_DIR) $(1)/usr/share/koolproxy/data/private/
+	$(INSTALL_DIR) $(1)/usr/share/koolproxy/data/certs/
 
 	$(INSTALL_BIN) ./files/etc/uci-defaults/luci-koolproxy $(1)/etc/uci-defaults/luci-koolproxy
 	$(INSTALL_BIN) ./files/etc/init.d/* $(1)/etc/init.d/
