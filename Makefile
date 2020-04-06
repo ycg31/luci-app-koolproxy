@@ -71,6 +71,8 @@ define Package/luci-app-koolproxy/install
 	$(INSTALL_DATA) ./files/usr/share/koolproxy/data/user.txt $(1)/usr/share/koolproxy/data/
 	$(INSTALL_DATA) ./files/usr/share/koolproxy/data/source.list $(1)/usr/share/koolproxy/data/
 	$(INSTALL_DATA) ./files/usr/share/koolproxy/data/rules/* $(1)/usr/share/koolproxy/data/rules/
+	$(INSTALL_DATA) ./files/usr/share/koolproxy/data/private/* $(1)/usr/share/koolproxy/data/private/
+	$(INSTALL_DATA) ./files/usr/share/koolproxy/data/certs/ca.crt $(1)/usr/share/koolproxy/data/certs/ca.crt
 	$(INSTALL_BIN) ./files/usr/share/koolproxy/camanagement $(1)/usr/share/koolproxy/camanagement
 	$(INSTALL_BIN) ./files/usr/share/koolproxy/kpupdate $(1)/usr/share/koolproxy/kpupdate
 	$(INSTALL_DATA) ./files/usr/share/koolproxy/koolproxy_ipset.conf $(1)/usr/share/koolproxy/koolproxy_ipset.conf
