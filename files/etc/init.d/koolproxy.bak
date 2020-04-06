@@ -13,9 +13,8 @@ USE_PROCD=1
 CONFIG=koolproxy
 KP_DIR=/usr/share/koolproxy
 TMP_DIR=/tmp
-LOGFILE=/var/log/koolproxy.log
 
-alias echo_date='echo $(date +%Y年%m月%d日\ %X):' 
+alias echo_date='echo $(date +%Y年%m月%d日\ %X):'
 
 config_n_get() {
 	local ret=$(uci get $CONFIG.$1.$2 2>/dev/null)
@@ -31,7 +30,7 @@ config_t_get() {
 
 add_ipset_conf() {
 	if [ -s /etc/adblocklist/adbypass ]; then
-		echo_date 添加白名单软连接... >> $LOGFILE
+		echo_date 添加白名单软连接...
 		cat /etc/adblocklist/adbypass | sed "s/,/\n/g" | sed "s/^/ipset=&\/./g" | sed "s/$/\/white_kp_list/g"  >> /tmp/adbypass.conf
 		rm -rf /tmp/dnsmasq.d/adbypass.conf
 		ln -sf /tmp/adbypass.conf /tmp/dnsmasq.d/adbypass.conf
@@ -41,15 +40,15 @@ add_ipset_conf() {
 
 	if [ "$koolproxy_mode" == "2" ]; then
 		if [ "$koolproxy_host" == "1" ];then
-			echo_date 添加Adblock Plus Host软连接... >> $LOGFILE
+			echo_date 添加Adblock Plus Host软连接...
 			ln -sf $KP_DIR/dnsmasq.adblock /tmp/dnsmasq.d/dnsmasq.adblock
 		fi
 
-		echo_date 添加黑名单软连接... >> $LOGFILE
+		echo_date 添加黑名单软连接...
 		rm -rf /tmp/dnsmasq.d/koolproxy_ipset.conf
 		ln -sf $KP_DIR/koolproxy_ipset.conf /tmp/dnsmasq.d/koolproxy_ipset.conf
 
-		echo_date 添加自定义黑名单软连接... >> $LOGFILE
+		echo_date 添加自定义黑名单软连接...
 		if [ -s /etc/adblocklist/adblock ]; then
 			cat /etc/adblocklist/adblock | sed "s/,/\n/g" | sed "s/^/ipset=&\/./g" | sed "s/$/\/black_koolproxy/g"  >> /tmp/adblock.conf
 			rm -rf /tmp/dnsmasq.d/adblock.conf
@@ -62,27 +61,27 @@ add_ipset_conf() {
 
 remove_ipset_conf() {
 	if [ -L "/tmp/dnsmasq.d/adbypass.conf" ]; then
-		echo_date 移除白名单软连接... >> $LOGFILE
+		echo_date 移除白名单软连接...
 		rm -rf /tmp/adbypass.conf
 		rm -rf /tmp/dnsmasq.d/adbypass.conf
 		dnsmasq_restart=1
 	fi
 
 	if [ -L "/tmp/dnsmasq.d/koolproxy_ipset.conf" ]; then
-		echo_date 移除黑名单软连接... >> $LOGFILE
+		echo_date 移除黑名单软连接...
 		rm -rf /tmp/dnsmasq.d/koolproxy_ipset.conf
 		dnsmasq_restart=1
 	fi
 
 	if [ -L "/tmp/dnsmasq.d/adblock.conf" ]; then
-		echo_date 移除自定义黑名单软连接... >> $LOGFILE
+		echo_date 移除自定义黑名单软连接...
 		rm -rf /tmp/dnsmasq.d/adblock.conf
 		rm -rf /tmp/adblock.conf
 		dnsmasq_restart=1
 	fi
 
 	if [ -L "/tmp/dnsmasq.d/dnsmasq.adblock" ]; then
-		echo_date 移除Adblock Plus Host软连接... >> $LOGFILE
+		echo_date 移除Adblock Plus Host软连接...
 		rm -rf /tmp/dnsmasq.d/dnsmasq.adblock
 		dnsmasq_restart=1
 	fi
@@ -91,13 +90,13 @@ remove_ipset_conf() {
 
 restart_dnsmasq() {
 	if [ "$dnsmasq_restart" == "1" ]; then
-		echo_date 重启dnsmasq进程... >> $LOGFILE
+		echo_date 重启dnsmasq进程...
 		/etc/init.d/dnsmasq restart > /dev/null 2>&1
 	fi
 }
 
 creat_ipset() {
-	echo_date 创建ipset名单 >> $LOGFILE
+	echo_date 创建ipset名单
 	# Load ipset netfilter kernel modules and kernel modules
 	ipset -! create white_kp_list nethash
 	ipset -! create black_koolproxy iphash
@@ -105,7 +104,7 @@ creat_ipset() {
 }
 
 add_white_black_ip() {
-	echo_date 添加ipset名单 >> $LOGFILE
+	echo_date 添加ipset名单
 	ip_lan="0.0.0.0/8 10.0.0.0/8 100.64.0.0/10 127.0.0.0/8 169.254.0.0/16 172.16.0.0/12 192.0.0.0/24 192.0.2.0/24 192.31.196.0/24 192.52.193.0/24 192.88.99.0/24 192.168.0.0/16 192.175.48.0/24 198.18.0.0/15 198.51.100.0/24 203.0.113.0/24 224.0.0.0/4 240.0.0.0/4 255.255.255.255"
 	for ip in $ip_lan
 	do
@@ -136,9 +135,9 @@ __load_lan_acl() {
 	config_get mac $1 mac
 	config_get ipaddr $1 ipaddr
 	config_get proxy_mode $1 proxy_mode
-	[ -n "$ipaddr" ] && [ -z "$mac" ] && echo_date 加载ACL规则：【$ipaddr】模式为：$(get_mode_name $proxy_mode) >> $LOGFILE
-	[ -z "$ipaddr" ] && [ -n "$mac" ] && echo_date 加载ACL规则：【$mac】模式为：$(get_mode_name $proxy_mode) >> $LOGFILE
-	[ -n "$ipaddr" ] && [ -n "$mac" ] && echo_date 加载ACL规则：【$ipaddr】【$mac】模式为：$(get_mode_name $proxy_mode) >> $LOGFILE
+	[ -n "$ipaddr" ] && [ -z "$mac" ] && echo_date 加载ACL规则：【$ipaddr】模式为：$(get_mode_name $proxy_mode)
+	[ -z "$ipaddr" ] && [ -n "$mac" ] && echo_date 加载ACL规则：【$mac】模式为：$(get_mode_name $proxy_mode)
+	[ -n "$ipaddr" ] && [ -n "$mac" ] && echo_date 加载ACL规则：【$ipaddr】【$mac】模式为：$(get_mode_name $proxy_mode)
 	#echo iptables -t nat -A KOOLPROXY $(factor $ipaddr "-s") $(factor $mac "-m mac --mac-source") -p tcp $(get_jump_mode $proxy_mode) $(get_action_chain $proxy_mode)
 	iptables -t nat -A KOOLPROXY $(factor $ipaddr "-s") $(factor $mac "-m mac --mac-source") -p tcp $(get_jump_mode $proxy_mode) $(get_action_chain $proxy_mode)
 
@@ -150,9 +149,9 @@ lan_acess_control() {
 	[ -z "$koolproxy_acl_default" ] && koolproxy_acl_default=1
 	config_foreach __load_lan_acl acl_rule
 	if [ $acl_nu -ne 0 ]; then
-		echo_date 加载ACL规则：其余主机模式为：$(get_mode_name $koolproxy_acl_default) >> $LOGFILE
+		echo_date 加载ACL规则：其余主机模式为：$(get_mode_name $koolproxy_acl_default)
 	else
-		echo_date 加载ACL规则：所有模式为：$(get_mode_name $koolproxy_acl_default) >> $LOGFILE
+		echo_date 加载ACL规则：所有模式为：$(get_mode_name $koolproxy_acl_default)
 	fi
 }
 
@@ -293,9 +292,9 @@ factor() {
 }
 
 load_nat() {
-	echo_date 加载nat规则！ >> $LOGFILE
+	echo_date 加载nat规则！
 	#----------------------BASIC RULES---------------------
-	echo_date 写入iptables规则到nat表中... >> $LOGFILE
+	echo_date 写入iptables规则到nat表中...
 	# 创建KOOLPROXY nat rule
 	iptables -t nat -N KOOLPROXY
 	# 局域网地址不走KP
@@ -309,7 +308,7 @@ load_nat() {
 	#iptables -t nat -A KP_ALL_PORT -p tcp -j REDIRECT --to-ports 3000
 	# 端口控制
 	if [ "$koolproxy_port" == "1" ]; then
-		echo_date 开启端口控制：【$koolproxy_bp_port】 >> $LOGFILE
+		echo_date 开启端口控制：【$koolproxy_bp_port】
 		if [ -n "$koolproxy_bp_port" ]; then
 			iptables -t nat -A KP_ALL_PORT -p tcp -m multiport ! --dport $koolproxy_bp_port -m set --match-set kp_full_port dst -j REDIRECT --to-ports 3000
 		else
@@ -348,13 +347,13 @@ del_cru() {
 
 detect_cert(){
 	if [ ! -f $KP_DIR/data/private/ca.key.pem -o ! -f $KP_DIR/data/cert/ca.crt ]; then
-		echo_date 开始生成koolproxy证书，用于https过滤！ >> $LOGFILE
+		echo_date 开始生成koolproxy证书，用于https过滤！
 		cd $KP_DIR/data && sh gen_ca.sh
 	fi
 }
 
 flush_nat() {
-	echo_date 移除nat规则... >> $LOGFILE
+	echo_date 移除nat规则...
 	cd $TMP_DIR
 	iptables -t nat -S | grep -E "KOOLPROXY|KP_HTTP|KP_HTTPS|KP_ALL_PORT" | sed 's/-A/iptables -t nat -D/g'|sed 1,4d > clean.sh && chmod 777 clean.sh && ./clean.sh
 	[ -f $TMP_DIR/clean.sh ] && rm -f $TMP_DIR/clean.sh
@@ -398,11 +397,11 @@ pre_start() {
 	load_nat
 	flush_ipt_rules && export_ipt_rules
 	add_cru
-	[ "$koolproxy_mode" == "1" ] && echo_date 选择【全局过滤模式】 >> $LOGFILE
-	[ "$koolproxy_mode" == "2" ] && echo_date 选择【IPSET过滤模式】 >> $LOGFILE
+	[ "$koolproxy_mode" == "1" ] && echo_date 选择【全局过滤模式】
+	[ "$koolproxy_mode" == "2" ] && echo_date 选择【IPSET过滤模式】
 	if [ "$koolproxy_mode" == "3" ]; then
-		echo_date 选择【视频过滤模式】 >> $LOGFILE
-		sed -i '3s/1/0/g;4s/1/0/g' $KP_DIR/data/source.list
+		echo_date 选择【视频过滤模式】
+		sed -i '1s/1/0/g;2s/1/0/g' $KP_DIR/data/source.list
 	fi
 	return 1
 }
@@ -422,7 +421,7 @@ post_stop() {
 }
 
 start_service() {
-	echo_date ================== koolproxy启用 ================ >> $LOGFILE
+	echo_date ================== koolproxy启用 ================
 	pre_start
 	[ $? -ne 1 ] && return 0
 
@@ -441,14 +440,14 @@ start_service() {
 	procd_close_instance
 
 	logger "koolproxy has started."
-	echo_date ================================================= >> $LOGFILE
+	echo_date =================================================
 }
 
 stop_service() {
-	echo_date ====================== 关闭 ===================== >> $LOGFILE
+	echo_date ====================== 关闭 =====================
 	post_stop
 	logger "koolproxy has stopped."
-	echo_date ================================================= >> $LOGFILE
+	echo_date =================================================
 }
 
 reload_service() {

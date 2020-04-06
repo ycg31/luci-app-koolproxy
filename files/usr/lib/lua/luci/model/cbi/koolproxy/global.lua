@@ -51,7 +51,7 @@ e.default = 1
 e.rmempty = false
 e:value(1, translate("全局模式"))
 e:value(2, translate("IPSET模式"))
-e:value(3, translate("视频模式"))
+
 
 e = t:taboption("base", MultiValue, "koolproxy_rules", translate("内置规则"))
 e.optional = false
@@ -110,7 +110,7 @@ e.write = function()
 	luci.sys.call("/usr/share/koolproxy/kpupdate 2>&1 >/dev/null")
 	luci.http.redirect(luci.dispatcher.build_url("admin","services","koolproxy"))
 end
-e.description = translate(string.format("<font color=\"red\"><strong>更新订阅规则与Adblock Plus Hosts</strong></font><br /><font color=\"green\">ABP规则: %s条<br />fanboy规则: %s条<br />yhosts规则: %s条<br />AdGuardHome规则: %s条<br />静态规则: %s条<br /> 视频规则: %s<br />每日规则: %s条<br />自定义规则: %s条<br />Host: %s条</font><br />", s, u, p,f,l,b,q,h, i))
+e.description = translate(string.format("<font color=\"red\"><strong>更新订阅规则与Adblock Plus Hosts</strong></font><br /><font color=\"green\">ABP规则: %s条 | fanboy规则: %s条<br />yhosts规则: %s条 | AdGuardHome规则: %s条<br />静态规则: %s条 |  视频规则: %s<br />每日规则: %s条 | Host: %s条<br />自定义规则: %s条</font><br />", s, u, p,f,l,b,q,i, h))
 t:tab("cert",translate("Certificate Management"))
 
 e=t:taboption("cert",DummyValue,"c1status",translate("<div align=\"left\">Certificate Restore</div>"))
